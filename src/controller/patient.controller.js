@@ -3,6 +3,7 @@ import apiResponse from "../utils/apiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { patient } from "../model/patient.model.js";
 import { uploadOnCloudinary } from "../utils/cloudinarySetUp.js";
+
 const patientRegistration = asyncHandler(async (req, res) => {
   const {
     name,
@@ -24,7 +25,6 @@ const patientRegistration = asyncHandler(async (req, res) => {
     relationship,
     contact,
   } = req.body;
-
 
   if (
     !name ||
@@ -82,10 +82,15 @@ const patientRegistration = asyncHandler(async (req, res) => {
       "Something went wrong while creating patient in DB"
     );
   }
-  
+
   return res
     .status(200)
     .json(new apiResponse(201, "Patient Registration Successfull", createUser));
 });
 
-export { patientRegistration };
+const getPatient = asyncHandler(async (req, res) => {
+  const allPatient = await patient.find();
+  return res.status(200).json(new apiResponse(201, { Patient: allPatient }));
+});
+
+export { patientRegistration, getPatient };

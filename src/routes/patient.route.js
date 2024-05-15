@@ -1,9 +1,17 @@
 import { Router } from "express";
 import upload from "../middleware/multer.middleware.js";
-import { patientRegistration } from "../controller/patient.controller.js";
+import {
+  patientRegistration,
+  getPatient,
+} from "../controller/patient.controller.js";
 
 const router = Router();
 
-router.route("/registration").post( upload.single("photo"), patientRegistration);
+// Patient Route
+router.route("/registration").post(upload.single("photo"), patientRegistration);
+router.route("/getPatient").get(getPatient);
+
+
+// Doctor's Route
 
 export default router;
